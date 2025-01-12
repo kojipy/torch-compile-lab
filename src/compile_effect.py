@@ -65,6 +65,23 @@ class Whisper(Model):
         self._model.generate(self._task)
 
 
+class DETR(Model):
+    def __init__(self, compile=False):
+        super().__init__()
+        url = "http://images.cocodataset.org/val2017/000000039769.jpg"
+        image = Image.open(requests.get(url, stream=True).raw)
+
+        image_processor = AutoImageProcessor.from_pretrained("facebook/detr-resnet-50")
+        self._model = DetrForObjectDetection.from_pretrained("facebook/detr-resnet-50")
+
+        if compile:
+            self._model = self.compile()
+        self._task = image_processor(images=image, return_tensors="pt")
+
+    def run(self):
+        self._model(**self._task)
+
+
 def run(model):
     start_time = time.time()
     model.run()
@@ -88,7 +105,7 @@ def duration_test(number_of_run: int, model: Model, compile: bool):
 
 
 def main():
-    models = [T5, Whisper]
+    models = [T5, Whisper, DETR]
     runs = []
 
     for model in models:
