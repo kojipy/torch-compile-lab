@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 from transformers import pipeline
                                                                                                                                   
 
