@@ -12,6 +12,9 @@ class Model(ABC):
     @abstractmethod
     def run(): ...
 
+    def compile(self):
+        return torch.compile(self._model)
+
 
 class T5(Model):
     def __init__(self, compile=False):
@@ -19,7 +22,7 @@ class T5(Model):
         self._model = T5ForConditionalGeneration.from_pretrained("google-t5/t5-small")
 
         if compile:
-            self._model = torch.compile(self._model)
+            self._model = self.compile()
 
         tokenizer = T5Tokenizer.from_pretrained("google-t5/t5-small")
         self._task = tokenizer(
