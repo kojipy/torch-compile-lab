@@ -1,3 +1,5 @@
+import logging
+import sys
 import time
 from abc import ABC, abstractmethod
 
@@ -15,6 +17,12 @@ from transformers import (
     WhisperProcessor,
 )
 
+logger = logging.getLogger(__file__)
+stdout_handler = logging.StreamHandler(stream=sys.stdout)
+stdout_handler.setLevel(logging.INFO)
+logger.addHandler(stdout_handler)
+logger.setLevel(logging.INFO)
+
 NUMBER_OF_RUN = 1
 
 
@@ -23,6 +31,7 @@ class Model(ABC):
     def run(): ...
 
     def compile(self):
+        logger.info("compile model")
         return torch.compile(self._model)
 
 
