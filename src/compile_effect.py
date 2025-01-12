@@ -1,4 +1,5 @@
 import time
+from abc import ABC, abstractmethod
 
 import torch
 from tabulate import tabulate
@@ -7,7 +8,11 @@ from transformers import T5ForConditionalGeneration, T5Tokenizer
 NUMBER_OF_RUN = 3
 
 
-class T5:
+class Model(ABC):
+    @abstractmethod
+    def run(): ...
+
+
     def __init__(self, compile=False):
         tokenizer = T5Tokenizer.from_pretrained("google-t5/t5-small")
         self.model = T5ForConditionalGeneration.from_pretrained("google-t5/t5-small")
