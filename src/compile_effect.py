@@ -66,12 +66,14 @@ def run(model):
     return duration
 
 
-def duration_test(number_of_run: int, model: T5, compile: bool):
+def duration_test(number_of_run: int, model: Model, compile: bool):
     results = []
     compiled_flag = "1" if compile else "0"
     for iteration in range(number_of_run + 1):  # 最初の1回目はウォームアップ
         duration = run(model)
-        results.append([iteration + 1, compiled_flag, duration])
+        results.append(
+            [model.__class__.__name__, iteration + 1, compiled_flag, duration]
+        )
 
     return results
 
@@ -92,7 +94,7 @@ def main():
     print(
         tabulate(
             runs,
-            headers=["Iteration", "compiled", "Duration[sec]"],
+            headers=["Model", "Iteration", "compiled", "Duration[sec]"],
             floatfmt=".5f",
         )
     )
