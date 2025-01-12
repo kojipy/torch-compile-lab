@@ -88,17 +88,21 @@ def duration_test(number_of_run: int, model: Model, compile: bool):
 
 
 def main():
+    models = [T5, Whisper]
     runs = []
 
-    t5_not_compiled = T5(compile=False)
-    not_compiled_test = duration_test(
-        NUMBER_OF_RUN, model=t5_not_compiled, compile=False
-    )
-    runs += not_compiled_test
+    for model in models:
+        model_not_compiled = model(compile=False)
+        not_compiled_test = duration_test(
+            NUMBER_OF_RUN, model=model_not_compiled, compile=False
+        )
+        runs += not_compiled_test
 
-    t5_compiled = T5(compile=True)
-    compiled_tests = duration_test(NUMBER_OF_RUN, model=t5_compiled, compile=True)
-    runs += compiled_tests
+        model_compiled = model(compile=True)
+        compiled_tests = duration_test(
+            NUMBER_OF_RUN, model=model_compiled, compile=True
+        )
+        runs += compiled_tests
 
     print(
         tabulate(
