@@ -15,6 +15,7 @@ class Model(ABC):
 
 class T5(Model):
     def __init__(self, compile=False):
+        super().__init__()
         self._model = T5ForConditionalGeneration.from_pretrained("google-t5/t5-small")
 
         if compile:
