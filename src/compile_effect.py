@@ -1,10 +1,14 @@
 import time
 from abc import ABC, abstractmethod
 
+import requests
 import torch
 from datasets import load_dataset
+from PIL import Image
 from tabulate import tabulate
 from transformers import (
+    AutoImageProcessor,
+    DetrForObjectDetection,
     T5ForConditionalGeneration,
     T5Tokenizer,
     WhisperForConditionalGeneration,
