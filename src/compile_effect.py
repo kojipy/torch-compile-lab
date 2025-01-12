@@ -2,8 +2,14 @@ import time
 from abc import ABC, abstractmethod
 
 import torch
+from datasets import load_dataset
 from tabulate import tabulate
-from transformers import T5ForConditionalGeneration, T5Tokenizer
+from transformers import (
+    T5ForConditionalGeneration,
+    T5Tokenizer,
+    WhisperForConditionalGeneration,
+    WhisperProcessor,
+)
 
 NUMBER_OF_RUN = 3
 
