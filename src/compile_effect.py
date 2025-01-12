@@ -31,7 +31,7 @@ class T5(Model):
 
 def run(model):
     start_time = time.time()
-    model.model.generate(model.task)
+    model.run()
     end_time = time.time()
 
     duration = end_time - start_time
