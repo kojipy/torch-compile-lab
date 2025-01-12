@@ -11,7 +11,7 @@ from transformers import (
     WhisperProcessor,
 )
 
-NUMBER_OF_RUN = 3
+NUMBER_OF_RUN = 1
 
 
 class Model(ABC):
