@@ -26,7 +26,7 @@ class T5(Model):
         ).input_ids
 
     def run(self):
-        self.model.generate(self.task)
+        self._model.generate(self._task)
 
 
 def run(model):
