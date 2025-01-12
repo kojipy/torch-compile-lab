@@ -13,16 +13,20 @@ class Model(ABC):
     def run(): ...
 
 
+class T5(Model):
     def __init__(self, compile=False):
-        tokenizer = T5Tokenizer.from_pretrained("google-t5/t5-small")
-        self.model = T5ForConditionalGeneration.from_pretrained("google-t5/t5-small")
+        self._model = T5ForConditionalGeneration.from_pretrained("google-t5/t5-small")
 
         if compile:
-            self.model = torch.compile(self.model)
+            self._model = torch.compile(self._model)
 
-        self.task = tokenizer(
+        tokenizer = T5Tokenizer.from_pretrained("google-t5/t5-small")
+        self._task = tokenizer(
             "translate English to German: The house is wonderful.", return_tensors="pt"
         ).input_ids
+
+    def run(self):
+        self.model.generate(self.task)
 
 
 def run(model):
