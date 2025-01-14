@@ -40,7 +40,7 @@ class T5(Model):
 
     def __init__(self, compile=False):
         super().__init__()
-        self._model = T5ForConditionalGeneration.from_pretrained()
+        self._model = T5ForConditionalGeneration.from_pretrained(self.model_id)
 
         if compile:
             self._model = self.compile()
