@@ -60,13 +60,13 @@ class Whisper(Model):
     def __init__(self, compile=False):
         super().__init__()
         # load model and processor
-        processor = WhisperProcessor.from_pretrained(self.model_id)
         self._model = WhisperForConditionalGeneration.from_pretrained(self.model_id)
         self._model.config.forced_decoder_ids = None
 
         if compile:
             self._model = self.compile()
 
+        processor = WhisperProcessor.from_pretrained(self.model_id)
         # load dummy dataset and read audio files
         ds = load_dataset(
             "hf-internal-testing/librispeech_asr_dummy", "clean", split="validation"
@@ -85,14 +85,16 @@ class DETR(Model):
 
     def __init__(self, compile=False):
         super().__init__()
-        url = "http://images.cocodataset.org/val2017/000000039769.jpg"
-        image = Image.open(requests.get(url, stream=True).raw)
 
-        image_processor = AutoImageProcessor.from_pretrained(self.model_id)
         self._model = DetrForObjectDetection.from_pretrained(self.model_id)
 
         if compile:
             self._model = self.compile()
+
+        image_processor = AutoImageProcessor.from_pretrained(self.model_id)
+
+        url = "http://images.cocodataset.org/val2017/000000039769.jpg"
+        image = Image.open(requests.get(url, stream=True).raw)
         self._task = image_processor(images=image, return_tensors="pt")
 
     def run(self):
