@@ -38,12 +38,12 @@ class Model(ABC):
 class T5(Model):
     def __init__(self, compile=False):
         super().__init__()
-        self._model = T5ForConditionalGeneration.from_pretrained("google-t5/t5-small")
+        self._model = T5ForConditionalGeneration.from_pretrained("google-t5/t5-base")
 
         if compile:
             self._model = self.compile()
 
-        tokenizer = T5Tokenizer.from_pretrained("google-t5/t5-small")
+        tokenizer = T5Tokenizer.from_pretrained("google-t5/t5-base")
         self._task = tokenizer(
             "translate English to German: The house is wonderful.", return_tensors="pt"
         ).input_ids
@@ -56,9 +56,9 @@ class Whisper(Model):
     def __init__(self, compile=False):
         super().__init__()
         # load model and processor
-        processor = WhisperProcessor.from_pretrained("openai/whisper-tiny")
+        processor = WhisperProcessor.from_pretrained("openai/whisper-base.en")
         self._model = WhisperForConditionalGeneration.from_pretrained(
-            "openai/whisper-tiny"
+            "openai/whisper-base.en"
         )
         self._model.config.forced_decoder_ids = None
 
